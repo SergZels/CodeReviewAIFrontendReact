@@ -11,16 +11,20 @@ function App() {
   const [description, setDescription] = useState("");
   const [gitRepo, setGitRepo] = useState("");
   const [openAiKey, setopenAiKey] = useState("");
+  const [githubAiKey, setgithubAiKey] = useState("");
   const [level, setlevel] = useState("Junior");
   const [filePath, setFilePath] = useState("");
   const [rewiew, setrewiew] = useState("");
 
   async function submData() {
     try {
-      const resp = await axios.post('http://localhost:7777/review', {  
+     // const resp = await axios.post('https://zelse.asuscomm.com/CodeReviewAIv2/reviewFrontend',{
+      const resp = await axios.post('http://localhost:7777/reviewFrontend', {  
         assignment_description: description,
         github_repo_url: gitRepo,
-        candidate_level: level
+        candidate_level: level,
+        gitHubApiKey: githubAiKey,
+        openAIApiKey: openAiKey
       });
   
       // Виведення відповіді в консоль
@@ -28,7 +32,7 @@ function App() {
     
       const { prompt } = resp.data;
       const {  GPTReview } = resp.data;
-      setrewiew(prompt + GPTReview);
+      setrewiew(GPTReview +"\n\n\n Prompt: \n" + prompt );
 
        // Витягуємо назви файлів
     const files = resp.data.file_paths.map((filePath) => {
@@ -41,6 +45,12 @@ function App() {
   
     } catch (e) {
       console.error('Error:', e);
+      if (e.response && e.response.data) {
+        const errorData = JSON.stringify(e.response.data, null, 2); // Форматуємо JSON з відступами
+        setrewiew(`Error: ${e.message}\nDetails:\n${errorData}`);
+      } else {
+        setrewiew(`Error: ${e.message}`);
+      }
     }
   }
  
@@ -48,6 +58,7 @@ function App() {
     setDescription("");
     setGitRepo("");
     setopenAiKey("");
+    setgithubAiKey("");
     setFilePath("");
     setrewiew("");
     setlevel("Junior");
@@ -105,9 +116,23 @@ function App() {
                 fullWidth     
                 required />
 
+              <Typography variant="h5"
+                  sx={{ textAlign: 'left', marginBottom:1, paddingLeft:2}}>
+                  <strong>Github API Key </strong>
+            </Typography>
+            <TextField id="outlined-basic"
+              label="Enter Key here"
+                variant="outlined"
+                onChange={(event) => setgithubAiKey(event.target.value)}
+                value={githubAiKey}
+                multiline
+                fullWidth     
+                         
+                required />
+
              <Typography variant="h5"
                   sx={{ textAlign: 'left', marginBottom:1, paddingLeft:2}}>
-                  <strong>Openai API Key (not implemented)</strong>
+                  <strong>Openai API Key</strong>
             </Typography>
             <TextField id="outlined-basic"
               label="Enter Key here"
@@ -130,7 +155,7 @@ function App() {
       >
         <FormControlLabel value="Junior" control={<Radio />} label="Junior" />
         <FormControlLabel value="Middle" control={<Radio />} label="Middle" />
-        <FormControlLabel value="Sinior" control={<Radio />} label="Sinior" />
+        <FormControlLabel value="Senior" control={<Radio />} label="Senior" />
         
       </RadioGroup>
     </FormControl>
@@ -162,7 +187,7 @@ function App() {
               value={rewiew}
                 variant="outlined"
                 multiline
-                rows={12} 
+                rows={17} 
                 fullWidth     
                 required 
                 sx={{
