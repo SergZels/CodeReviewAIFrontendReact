@@ -144,21 +144,21 @@ function App() {
                          
                 required />
 
-    <FormControl>
-      <FormLabel id="demo-row-radio-buttons-group-label">Candidate Level</FormLabel>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-        value={level} // Задає поточне значення вибору
-        onChange={(event) => setlevel(event.target.value)} // Оновлює значення при виборі
-      >
-        <FormControlLabel value="Junior" control={<Radio />} label="Junior" />
-        <FormControlLabel value="Middle" control={<Radio />} label="Middle" />
-        <FormControlLabel value="Senior" control={<Radio />} label="Senior" />
-        
-      </RadioGroup>
-    </FormControl>
+            <FormControl>
+              <FormLabel id="demo-row-radio-buttons-group-label">Candidate Level</FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                value={level} // Задає поточне значення вибору
+                onChange={(event) => setlevel(event.target.value)} // Оновлює значення при виборі
+              >
+                <FormControlLabel value="Junior" control={<Radio />} label="Junior" />
+                <FormControlLabel value="Middle" control={<Radio />} label="Middle" />
+                <FormControlLabel value="Senior" control={<Radio />} label="Senior" />
+                
+              </RadioGroup>
+            </FormControl>
 
             <Stack spacing={20} direction={'row'}  justifyContent="center">
                   <Button variant="contained" onClick={submData}   color="success" >CodeReview</Button>
