@@ -7,7 +7,6 @@ import { Box, Paper,Stack, TextField,Button,Typography, FormControl,FormLabel,Ra
 
 
 function App() {
-
   const [description, setDescription] = useState("");
   const [gitRepo, setGitRepo] = useState("");
   const [openAiKey, setopenAiKey] = useState("");
@@ -27,21 +26,17 @@ function App() {
         openAIApiKey: openAiKey
       });
   
-      // Виведення відповіді в консоль
       console.log('Response:', resp.data);
     
       const { prompt } = resp.data;
       const {  GPTReview } = resp.data;
       setrewiew(GPTReview +"\n\n\n Prompt: \n" + prompt );
 
-       // Витягуємо назви файлів
-    const files = resp.data.file_paths.map((filePath) => {
+      const files = resp.data.file_paths.map((filePath) => {
       return filePath.split('\\').pop().split('/').pop();
     });
-
-    // Форматуємо список назв файлів для відображення в TextField
+    
     setFilePath(files.map(file => `• ${file}`).join("\n")); // Додаємо символ для списку та новий рядок
-
   
     } catch (e) {
       console.error('Error:', e);
@@ -64,7 +59,6 @@ function App() {
     setlevel("Junior");
   };
  
-
   return (
     <>
  <Box
@@ -77,7 +71,6 @@ function App() {
        marginLeft:1
       }}
     >
-
        <Paper 
         elevation={15} 
         sx={{ padding: 4, width: '100%' }}>
@@ -99,7 +92,7 @@ function App() {
                 multiline
                 onChange={(event) => setDescription(event.target.value)}
                 value={description}
-                rows={4} // Кількість рядків для висоти поля
+                rows={4} 
                 fullWidth     
                 required />
 
@@ -141,7 +134,6 @@ function App() {
                 value={openAiKey}
                 multiline
                 fullWidth     
-                         
                 required />
 
             <FormControl>
@@ -150,19 +142,18 @@ function App() {
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
                 name="row-radio-buttons-group"
-                value={level} // Задає поточне значення вибору
-                onChange={(event) => setlevel(event.target.value)} // Оновлює значення при виборі
+                value={level} 
+                onChange={(event) => setlevel(event.target.value)} 
               >
                 <FormControlLabel value="Junior" control={<Radio />} label="Junior" />
                 <FormControlLabel value="Middle" control={<Radio />} label="Middle" />
                 <FormControlLabel value="Senior" control={<Radio />} label="Senior" />
-                
               </RadioGroup>
-            </FormControl>
+             </FormControl>
 
             <Stack spacing={20} direction={'row'}  justifyContent="center">
                   <Button variant="contained" onClick={submData}   color="success" >CodeReview</Button>
-                  <Button variant="contained"  onClick={clear} color="alert" > Clear  </Button>
+                  <Button variant="contained"  onClick={clear} color="alert" > Clear</Button>
             </Stack>
              
         <Typography variant="h5"
@@ -170,11 +161,10 @@ function App() {
                   <strong>Files find in repository</strong>
             </Typography>
             <TextField id="outlined-basic"
-              
                 value={filePath}
                 variant="outlined"
                 multiline
-                rows={6} // Кількість рядків для висоти поля
+                rows={6} 
                 fullWidth     
                 required />  
 
@@ -183,8 +173,7 @@ function App() {
                   <strong>Revew result</strong>
             </Typography>
             <TextField id="outlined-basic"
-            
-              value={rewiew}
+                value={rewiew}
                 variant="outlined"
                 multiline
                 rows={17} 
@@ -193,13 +182,10 @@ function App() {
                 sx={{
                   backgroundColor: '#fef9e7', 
                 }}
-               
                 />  
-       
-          </Stack>
+            </Stack>
         </Paper>
-        
-    </Box>
+      </Box>
     </>
   )
 }
